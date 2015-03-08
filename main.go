@@ -4,7 +4,6 @@ import (
 	"net/http"
     "gopkg.in/flosch/pongo2.v3"
     "github.com/shaoshing/train"
-    "net/http"
     "fmt"
     posts "github.com/bytepark/shorty/posts"
 )
@@ -33,7 +32,7 @@ func renderTemplate(w http.ResponseWriter, tmpl string, data interface{}) {
 
 func handlerListPosts(writer http.ResponseWriter, request *http.Request) {
     myposts := posts.ListPosts()
-	renderTemplate(writer, "posts", posts)
+	renderTemplate(writer, "posts", myposts)
 }
 
 func handlerNewPost(writer http.ResponseWriter, request *http.Request) {
@@ -41,7 +40,7 @@ func handlerNewPost(writer http.ResponseWriter, request *http.Request) {
     fmt.Println("new url", url)
 
     mypost := posts.NewPost(url, "testlink")
-	renderTemplate(writer, "newpost", nil)
+	renderTemplate(writer, "newpost", mypost)
 }
 
 func handlerDocs(writer http.ResponseWriter, request *http.Request) {
