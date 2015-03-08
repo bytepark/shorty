@@ -2,6 +2,24 @@
 A URL shortener written in GO
 
 
+## usage
+
+After installation of needed packages (see below) you access a list of submitted urls (posts) via
+
+http://localhost:8080
+
+To add a new url simply call this url (for now, will be rerefactored to a form)
+
+http://localhost:8080/newpost?url=http://www.example.org&comment=test
+
+
+## Needed package for data storage
+
+``` sh
+go get github.com/mattn/go-sqlite3
+```
+
+
 ## Frontend Assets Pipeline with Train and Pongo
 
 ### Preparation
