@@ -27,3 +27,6 @@ _testmain.go
 .idea/
 *.sublime-workspace
 *.sublime-project
+
+# SASS/SCSS
+.sass-cache
