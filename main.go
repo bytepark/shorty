@@ -1,10 +1,12 @@
 package main
 
 import (
-    "fmt"
 	"net/http"
     "gopkg.in/flosch/pongo2.v3"
     "github.com/shaoshing/train"
+    "net/http"
+    "fmt"
+    posts "github.com/bytepark/shorty/posts"
 )
 
 type Post struct {
@@ -30,11 +32,15 @@ func renderTemplate(w http.ResponseWriter, tmpl string, data interface{}) {
 }
 
 func handlerListPosts(writer http.ResponseWriter, request *http.Request) {
-	posts := []Post{{Url: "foo", Comment: "Bar"}}
+    myposts := posts.ListPosts()
 	renderTemplate(writer, "posts", posts)
 }
 
 func handlerNewPost(writer http.ResponseWriter, request *http.Request) {
+    url := request.FormValue("url")
+    fmt.Println("new url", url)
+
+    mypost := posts.NewPost(url, "testlink")
 	renderTemplate(writer, "newpost", nil)
 }
 
