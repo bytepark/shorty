@@ -3,6 +3,7 @@ package main
 import (
 	"html/template"
 	"net/http"
+    "github.com/shaoshing/train"
 )
 
 type Post struct {
@@ -41,5 +42,6 @@ func main() {
 	http.HandleFunc("/docs", handlerDocs)
 	http.HandleFunc("/(pattern)", handlerShortLink)
 	http.HandleFunc("/", handlerListPosts)
+    train.ConfigureHttpHandler(nil)
 	http.ListenAndServe(":8080", nil)
 }

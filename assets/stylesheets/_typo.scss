@@ -1,0 +1,24 @@
+%text-improved-rendering {
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-text-size-adjust: none;
+    -ms-text-size-adjust: none;
+}
+
+%text-primary {
+    font-family: $font-family_sans;
+}
+
+%text-monospace {
+    font-family: $font-family_mono;
+}
+
+body {
+    @extend %text-primary;
+    @extend %text-improved-rendering;
+}
+
+pre, code, var, samp {
+    @extend %text-monospace;
+}
