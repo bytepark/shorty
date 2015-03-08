@@ -30,3 +30,6 @@ _testmain.go
 
 # SASS/SCSS
 .sass-cache
+
+# built project
+/public

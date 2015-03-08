@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head lang="de">
+    <meta charset="UTF-8">
+    <title></title>
+    {{ stylesheet_tag("main")|safe }}
+</head>
+<body>
+    {% block content %}
+    base
+    {% endblock %}
+    {{ javascript_tag("main")|safe }}
+</body>
+</html>

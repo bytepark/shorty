@@ -1,25 +1,38 @@
 package main
 
 import (
+	"net/http"
+    "gopkg.in/flosch/pongo2.v3"
     "github.com/shaoshing/train"
-    "html/template"
-    "net/http"
     "fmt"
     posts "github.com/bytepark/shorty/posts"
 )
 
-var templates = template.Must(template.ParseFiles("html/posts.tmpl.html", "html/newpost.tmpl.html", "html/docs.tmpl.html"))
+type Post struct {
+	Url     string
+	Comment string
+}
+
+var templates = map[string]string {
+    "posts":   "html/posts.html",
+    "newpost": "html/newpost.html",
+    "docs":    "html/docs.html",
+}
 
 func renderTemplate(w http.ResponseWriter, tmpl string, data interface{}) {
-    err := templates.ExecuteTemplate(w, tmpl, data)
-    if err != nil {
-        http.Error(w, err.Error(), http.StatusInternalServerError)
-    }
+    tpl := pongo2.Must(pongo2.FromFile(templates[tmpl]))
+    err := tpl.ExecuteWriter(pongo2.Context{
+        "javascript_tag": train.JavascriptTag,
+        "stylesheet_tag": train.StylesheetTag,
+    }, w)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
 }
 
 func handlerListPosts(writer http.ResponseWriter, request *http.Request) {
     myposts := posts.ListPosts()
-    renderTemplate(writer, "posts.tmpl.html", myposts)
+	renderTemplate(writer, "posts", myposts)
 }
 
 func handlerNewPost(writer http.ResponseWriter, request *http.Request) {
@@ -28,22 +41,28 @@ func handlerNewPost(writer http.ResponseWriter, request *http.Request) {
     fmt.Println("new url and comment:", url, comment)
 
     mypost := posts.NewPost(url, comment)
-    renderTemplate(writer, "newpost.tmpl.html", mypost)
+	renderTemplate(writer, "newpost", mypost)
 }
 
 func handlerDocs(writer http.ResponseWriter, request *http.Request) {
-    renderTemplate(writer, "docs.tmpl.html", nil)
+	renderTemplate(writer, "docs", nil)
 }
 
 func handlerShortLink(writer http.ResponseWriter, request *http.Request) {
 }
 
 func main() {
-    http.HandleFunc("/posts", handlerListPosts)
-    http.HandleFunc("/newpost", handlerNewPost)
-    http.HandleFunc("/docs", handlerDocs)
-    http.HandleFunc("/(pattern)", handlerShortLink)
-    http.HandleFunc("/", handlerListPosts)
     train.ConfigureHttpHandler(nil)
-    http.ListenAndServe(":8080", nil)
+
+	http.HandleFunc("/posts", handlerListPosts)
+	http.HandleFunc("/newpost", handlerNewPost)
+	http.HandleFunc("/docs", handlerDocs)
+	http.HandleFunc("/(pattern)", handlerShortLink)
+	http.HandleFunc("/", handlerListPosts)
+
+    fmt.Println("Listening to localhost:8080")
+	err := http.ListenAndServe(":8080", nil)
+    if err != nil {
+        panic(err)
+    }
 }
