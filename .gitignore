@@ -23,5 +23,7 @@ _testmain.go
 *.test
 *.prof
 
+# IDEs
 .idea/
-
+*.sublime-workspace
+*.sublime-project
