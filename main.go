@@ -24,9 +24,10 @@ func handlerListPosts(writer http.ResponseWriter, request *http.Request) {
 
 func handlerNewPost(writer http.ResponseWriter, request *http.Request) {
     url := request.FormValue("url")
-    fmt.Println("new url", url)
+    comment := request.FormValue("comment")
+    fmt.Println("new url and comment:", url, comment)
 
-    mypost := posts.NewPost(url, "testlink")
+    mypost := posts.NewPost(url, comment)
     renderTemplate(writer, "newpost.tmpl.html", mypost)
 }
 
