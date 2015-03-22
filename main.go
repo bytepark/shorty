@@ -1,7 +1,7 @@
 package main
 
 import (
-	"net/http"
+    "net/http"
     "gopkg.in/flosch/pongo2.v3"
     "github.com/shaoshing/train"
     "fmt"
@@ -9,8 +9,7 @@ import (
 )
 
 type Post struct {
-	Url     string
-	Comment string
+	Url, Comment string
 }
 
 var templates = map[string]string {
